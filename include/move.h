@@ -16,11 +16,16 @@
 #include "game.h"
 
 class Move {
+public:
+	enum Direction { Left, Right, Up, Down };
+
 private:
-	int _speed;
-	int _direction;
+	uint64_t _speed;
+	Direction _direction;
 
 public:
+	Move(uint64_t _speed, Direction _direction);
+
 	Move();
 	Move(Move const &src);
 	~Move();

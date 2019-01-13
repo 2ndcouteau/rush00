@@ -43,24 +43,24 @@ Game::Entity::Entity(int x, int y, Game::Type type)
 
 Game::Game() : _map(), _frame(0) {
 
-//	/* Init term with no delay, no cursor and keypad active */
-//	initscr();
-//	nodelay(stdscr, true);
-//	cbreak();
-//	keypad(stdscr, TRUE);
-//	curs_set(false);
-//
-//	/* Add dome pretty colors */
-//	start_color();
-//	init_pair(1, COLOR_RED, COLOR_BLACK);
-//	init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
-//	init_pair(3, COLOR_GREEN, COLOR_BLACK);
-//	init_pair(4, COLOR_CYAN, COLOR_BLACK);
-//	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
-//
-//	/* Main window creation.. */
-//	_window = newwin(GAME_H, GAME_W, 0, 0);
-//	box(_window, ACS_VLINE, ACS_HLINE);
+	/* Init term with no delay, no cursor and keypad active */
+	initscr();
+	nodelay(stdscr, true);
+	cbreak();
+	keypad(stdscr, TRUE);
+	curs_set(false);
+
+	/* Add dome pretty colors */
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(3, COLOR_GREEN, COLOR_BLACK);
+	init_pair(4, COLOR_CYAN, COLOR_BLACK);
+	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+
+	/* Main window creation.. */
+	_window = newwin(GAME_H, GAME_W, 0, 0);
+	box(_window, ACS_VLINE, ACS_HLINE);
 }
 
 Game::~Game() {
@@ -99,7 +99,7 @@ int Game::run() {
 						m->move(*this);
 
 					if (Spawn *s = dynamic_cast<Spawn *>(e))
-						s->spwan(*this);
+						s->spawn(*this);
 
 					if (Collide *cl = dynamic_cast<Collide *>(e))
 						cl->collide(*this);

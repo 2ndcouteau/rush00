@@ -47,3 +47,6 @@ void Move::move(Game &) {
 
 }
 
+Move::Move(uint64_t _speed, Move::Direction _direction)
+	: _speed(_speed), _direction(_direction) {}
+

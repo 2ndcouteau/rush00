@@ -16,14 +16,19 @@
 #include "game.h"
 
 class Spawn {
+private:
+	uint64_t _frequency;
+
 public:
+	Spawn(uint64_t _frequency);
+
 	Spawn();
 	Spawn(Spawn const &src);
-	~Spawn();
+	virtual ~Spawn();
 
 	Spawn &operator=(Spawn const &rhs);
 
-	void spwan(Game &);
+	virtual void spawn(Game &);
 };
 
 #endif /* !__SPAWN_H */

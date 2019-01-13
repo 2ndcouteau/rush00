@@ -43,6 +43,8 @@ Spawn &	Spawn::operator=(Spawn const &rhs)
 	return *this;
 }
 
-void Spawn::spwan(Game &) {
+void Spawn::spawn(Game &) {
 
 }
+
+Spawn::Spawn(uint64_t _frequency) : _frequency(_frequency) { }
