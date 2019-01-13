@@ -40,7 +40,7 @@ public:
 
 	int run();
 
-	void push(Entity *entity);
+	void push(Entity &entity);
 	void pop(Entity *entity);
 };
 

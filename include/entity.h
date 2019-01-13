@@ -26,9 +26,9 @@ class Entity
 private:
 
 protected:
-	Type			_type;
-	std::size_t		_x;
-	std::size_t		_y;
+	Type	_type;
+	int		_x;
+	int		_y;
 
 public:
 	Entity *next;
@@ -39,8 +39,8 @@ public:
 
 	Entity &	operator=(Entity const &rhs);
 
-	size_t get_x() const;
-	size_t get_y() const;
+	int get_x() const;
+	int get_y() const;
 };
 
 //std::ostream &	operator<<(std::ostream &o, Entity const &rhs);
