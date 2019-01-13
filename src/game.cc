@@ -97,15 +97,26 @@ int Game::run() {
 	return 0;
 }
 
-void Game::push(Entity *entity) {
-	if (entity->get_x() >= GAME_W || entity->get_y() >= GAME_H ||
-		entity->get_x() < 0 || entity->get_y() < 0)
+void Game::push(Entity &e) {
+	int x = e.get_x(), y = e.get_y();
+
+	if (x >= GAME_W || y >= GAME_H || x < 0 || y < 0)
 		return;
 
-
-	_map[entity->get_x()][entity->get_y()]
+	e.next = _map[x][y];
+	_map[x][y] = new Entity(e);
 }
 
 void Game::pop(Entity *entity) {
+	int x = entity->get_x(), y = entity->get_y();
 
+	/* Delete from linked list */
+	if (x < GAME_W && y < GAME_H && x >= 0 && y >= 0)
+		for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
+			if (*it == entity) {
+				*it = entity->next;
+				break;
+			}
+
+	delete entity;
 }

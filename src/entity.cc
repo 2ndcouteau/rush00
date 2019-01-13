@@ -45,18 +45,10 @@ Entity &	Entity::operator=(Entity const &rhs)
 
 
 // GET SET
-unsigned long Entity::get_x() const {
+int Entity::get_x() const {
 	return _x;
 }
 
-void Entity::set_x(unsigned long _x) {
-	Entity::_x = _x;
-}
-
-unsigned long Entity::get_y() const {
+int Entity::get_y() const {
 	return _y;
-}
-
-void Entity::set_y(unsigned long _y) {
-	Entity::_y = _y;
 }
