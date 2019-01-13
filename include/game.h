@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nm.c                                               :+:      :+:    :+:   */
+/*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,13 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
+#ifndef __GAME_H
+# define __GAME_H
 
+#include <time.h>
+#include <ncurses.h>
+
+#include <cstdlib>
+#include <chrono>
+#include <thread>
 #include <iostream>
 
-int main()
-{
-	Game game = Game();
+#define GAME_H (25)
+#define GAME_W (25)
 
-	return game.run();
-}
+class Entity;
+
+class Game {
+public:
+	uint64_t frame;
+	Entity *map[GAME_H][GAME_W];
+
+private:
+	WINDOW *_game;
+
+public:
+	Game();
+	virtual ~Game();
+	int run();
+};
+
+#endif /* !__GAME_H */
