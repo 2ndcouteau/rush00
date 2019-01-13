@@ -22,7 +22,7 @@ class Entity
 	private:
 
 	protected:
-		std::size_t		_type;
+		type			_type;
 		std::size_t		_x;
 		std::size_t		_y;
 
@@ -32,7 +32,6 @@ class Entity
 		~Entity(void);
 
 		Entity &	operator=(Entity const &rhs);
-
 };
 
 //std::ostream &	operator<<(std::ostream &o, Entity const &rhs);

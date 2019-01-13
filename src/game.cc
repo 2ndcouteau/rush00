@@ -12,7 +12,7 @@
 
 #include "game.h"
 
-Game::Game() : frame(0), map() {
+Game::Game() : _map(), _frame(0) {
 
 	/* Init term with no delay, no cursor and keypad active */
 	initscr();
@@ -36,8 +36,6 @@ Game::Game() : frame(0), map() {
 	/* Main window creation.. */
 	_game = newwin(GAME_H, GAME_W, 0, 0);
 	box(_game, ACS_VLINE, ACS_HLINE);
-
-	wrefresh(_game);
 }
 
 Game::~Game() {
@@ -54,7 +52,7 @@ int Game::run() {
 		if (input == 'q' || input == KEY_EXIT) break;
 
 		/* Yay, 60 fps */
-		++this->frame;
+		++this->_frame;
 		std::chrono::steady_clock::time_point end =
 			std::chrono::steady_clock::now() +
 			std::chrono::milliseconds(16);

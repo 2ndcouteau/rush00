@@ -28,10 +28,10 @@ class Entity;
 
 class Game {
 public:
-	uint64_t frame;
-	Entity *map[GAME_H][GAME_W];
 
 private:
+	Entity *_map[GAME_H][GAME_W];
+	uint64_t _frame;
 	WINDOW *_game;
 
 public:
