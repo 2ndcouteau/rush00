@@ -15,23 +15,32 @@
 
 #include <iostream>
 
-enum 			type{GOOD, BAD};
+enum Type
+{
+	GOOD,
+	BAD
+};
 
 class Entity
 {
-	private:
+private:
 
-	protected:
-		type			_type;
-		std::size_t		_x;
-		std::size_t		_y;
+protected:
+	Type			_type;
+	std::size_t		_x;
+	std::size_t		_y;
 
-	public:
-		Entity(void);
-		Entity(Entity const &src);
-		~Entity(void);
+public:
+	Entity *next;
 
-		Entity &	operator=(Entity const &rhs);
+	Entity(void);
+	Entity(Entity const &src);
+	virtual ~Entity(void);
+
+	Entity &	operator=(Entity const &rhs);
+
+	size_t get_x() const;
+	size_t get_y() const;
 };
 
 //std::ostream &	operator<<(std::ostream &o, Entity const &rhs);

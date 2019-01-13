@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <control.h>
 #include "game.h"
+#include "entity.h"
+#include "collide.h"
+#include "move.h"
 
 Game::Game() : _map(), _frame(0) {
 
@@ -57,11 +61,41 @@ int Game::run() {
 			std::chrono::steady_clock::now() +
 			std::chrono::milliseconds(16);
 
-		/* TODO: Game logic */
+		for (int i = 0; i < GAME_H; ++i) {
+			for (int j = 0; j < GAME_W; ++j) {
+				Collide::collide(*this, i, j);
+
+				for (Entity *e = _map[i][j]; e; e = e->next) {
+
+					if (Control *c = dynamic_cast<Control *>(e)) {
+						/* TODO: Do control */
+					}
+
+					if (Move *m = dynamic_cast<Move *>(e)) {
+						/* TODO: Do move */
+					}
+
+				}
+			}
+		}
+
 		wrefresh(_game);
 
 		std::this_thread::sleep_until(end);
 	}
 
 	return 0;
+}
+
+void Game::push(Entity *entity) {
+	if (entity->get_x() >= GAME_W || entity->get_y() >= GAME_H ||
+		entity->get_x() < 0 || entity->get_y() < 0)
+		return;
+
+
+	_map[entity->get_x()][entity->get_y()]
+}
+
+void Game::pop(Entity *entity) {
+
 }

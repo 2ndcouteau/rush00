@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Entity.hpp"
+#include <entity.h>
 
 
 Entity::Entity(void)
@@ -45,17 +45,18 @@ Entity &	Entity::operator=(Entity const &rhs)
 
 
 // GET SET
-std::size_t		Move::getX() const
-{
-	return (this->_x);
+unsigned long Entity::get_x() const {
+	return _x;
 }
 
-std::size_t		Move::getY() const
-{
-	return (this->_y);
+void Entity::set_x(unsigned long _x) {
+	Entity::_x = _x;
 }
 
-std::size_t		Move::getType() const
-{
-	if (this->_type)
+unsigned long Entity::get_y() const {
+	return _y;
+}
+
+void Entity::set_y(unsigned long _y) {
+	Entity::_y = _y;
 }

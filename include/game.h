@@ -37,7 +37,11 @@ private:
 public:
 	Game();
 	virtual ~Game();
+
 	int run();
+
+	void push(Entity *entity);
+	void pop(Entity *entity);
 };
 
 #endif /* !__GAME_H */
