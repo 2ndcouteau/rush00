@@ -10,46 +10,69 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <control.h>
+#include <game.h>
+
 #include "game.h"
-#include "entity.h"
+#include "player.h"
 #include "collide.h"
+#include "control.h"
 #include "move.h"
+#include "render.h"
+#include "spawn.h"
+
+Game::Entity::Entity() : x(), y(), type(), next(), frame() { }
+
+Game::Entity::Entity(const Game::Entity &src)
+	: x(), y(), type(), next(), frame() {
+	*this = src;
+}
+
+Game::Entity::~Entity() { }
+
+Game::Entity &Game::Entity::operator=(const Game::Entity &rhs) {
+	this->x = rhs.x;
+	this->y = rhs.y;
+	this->type = rhs.type;
+	this->next = rhs.next;
+	this->frame = rhs.frame;
+	return *this;
+}
+
+Game::Entity::Entity(int x, int y, Game::Type type)
+	: x(x), y(y), type(type), next(), frame() { }
 
 Game::Game() : _map(), _frame(0) {
 
-	/* Init term with no delay, no cursor and keypad active */
-	initscr();
-	nodelay(stdscr, true);
-	cbreak();
-	keypad(stdscr, TRUE);
-	curs_set(false);
-
-	std::cout << "LOL1\n";
-
-	/* Add dome pretty colors */
-	start_color();
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(3, COLOR_GREEN, COLOR_BLACK);
-	init_pair(4, COLOR_CYAN, COLOR_BLACK);
-	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
-
-	std::cout << "LOL2\n";
-
-	/* Main window creation.. */
-	_game = newwin(GAME_H, GAME_W, 0, 0);
-	box(_game, ACS_VLINE, ACS_HLINE);
+//	/* Init term with no delay, no cursor and keypad active */
+//	initscr();
+//	nodelay(stdscr, true);
+//	cbreak();
+//	keypad(stdscr, TRUE);
+//	curs_set(false);
+//
+//	/* Add dome pretty colors */
+//	start_color();
+//	init_pair(1, COLOR_RED, COLOR_BLACK);
+//	init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
+//	init_pair(3, COLOR_GREEN, COLOR_BLACK);
+//	init_pair(4, COLOR_CYAN, COLOR_BLACK);
+//	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+//
+//	/* Main window creation.. */
+//	_window = newwin(GAME_H, GAME_W, 0, 0);
+//	box(_window, ACS_VLINE, ACS_HLINE);
 }
 
 Game::~Game() {
 
 	/* Delete game window then tell ncurses to reset term */
-	delwin(_game);
+	delwin(_window);
 	endwin();
 }
 
 int Game::run() {
+	push(new Player(15, 15, 10));
+
 	for (int input; (input = getch()) != 27;) {
 
 		/* Stop game loop */
@@ -61,54 +84,75 @@ int Game::run() {
 			std::chrono::steady_clock::now() +
 			std::chrono::milliseconds(16);
 
-		for (int i = 0; i < GAME_H; ++i) {
-			for (int j = 0; j < GAME_W; ++j) {
+		for (int x = 0; x < GAME_W; ++x) {
+			for (int y = 0; y < GAME_H; ++y) {
+				for (Entity *e = _map[x][y]; e; e = e->next) {
 
-				for (Entity *e = _map[i][j]; e; e = e->next) {
+					/* Avoid to re-update game entity */
+					if (e->frame == _frame) continue;
+					e->frame = _frame;
 
-					// Add contition check input_value
-					if (Control *c = dynamic_cast<Control *>(e)) {
-						c->control(this);
-					}
+					if (Control *c = dynamic_cast<Control *>(e))
+						if (input > 0) c->control(*this, input);
 
-					if (Move *m = dynamic_cast<Move *>(e)) {
+					if (Move *m = dynamic_cast<Move *>(e))
 						m->move(*this);
-					}
 
-					if (Spawn *s = dynamic_cast<Spawn *>(e)) {
+					if (Spawn *s = dynamic_cast<Spawn *>(e))
 						s->spwan(*this);
-					}
 
-					if (Collide *cl = dynamic_cast<Collide *>(e)) {
+					if (Collide *cl = dynamic_cast<Collide *>(e))
 						cl->collide(*this);
-					}
 
-					this->render();
+					if (Render *c = dynamic_cast<Render *>(e))
+						c->render(*this);
 				}
 			}
 		}
 
-
-		wrefresh(_game);
-
+		wrefresh(_window);
 		std::this_thread::sleep_until(end);
 	}
 
 	return 0;
 }
 
-void Game::push(Entity &e) {
-	int x = e.get_x(), y = e.get_y();
+void Game::push(Entity *e) {
+	int x = e->x, y = e->y;
 
 	if (x >= GAME_W || y >= GAME_H || x < 0 || y < 0)
 		return;
 
-	e.next = _map[x][y];
-	_map[x][y] = new Entity(e);
+	e->next = _map[x][y];
+	_map[x][y] = e;
+}
+
+void Game::move(Entity *entity, int nx, int ny)
+{
+	int x = entity->x, y = entity->y;
+
+	/* validate user input */
+	if (nx >= GAME_W || ny >= GAME_H || nx < 0 || ny < 0)
+		return;
+	if (x >= GAME_W || y >= GAME_H || x < 0 || y < 0)
+		return;
+
+	/* Delete from linked list (previous position) */
+	for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
+		if (*it == entity) {
+			*it = entity->next;
+			break;
+		}
+
+	/* Insert at new position and set set new position */
+	entity->next = _map[nx][ny];
+	_map[nx][ny] = entity;
+	entity->x = nx;
+	entity->y = ny;
 }
 
 void Game::pop(Entity *entity) {
-	int x = entity->get_x(), y = entity->get_y();
+	int x = entity->x, y = entity->y;
 
 	/* Delete from linked list */
 	if (x < GAME_W && y < GAME_H && x >= 0 && y >= 0)
@@ -119,4 +163,14 @@ void Game::pop(Entity *entity) {
 			}
 
 	delete entity;
+}
+
+Game::Entity *Game::get(int x, int y) {
+	if (x >= GAME_W || y >= GAME_H || x < 0 || y < 0)
+		return NULL;
+	return _map[x][y];
+}
+
+uint64_t Game::get_frame() const {
+	return this->_frame;
 }

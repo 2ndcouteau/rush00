@@ -24,15 +24,36 @@
 #define GAME_H (25)
 #define GAME_W (25)
 
-class Entity;
-
 class Game {
 public:
+	enum Type {
+		GOOD,
+		BAD
+	};
+
+	class Entity
+	{
+	public:
+		int x;
+		int y;
+		Type type;
+		Entity *next;
+		uint64_t frame;
+
+	public:
+		Entity(int x, int y, Type type);
+
+		Entity();
+		Entity(Entity const &src);
+		virtual ~Entity();
+
+		Entity &operator=(Entity const &rhs);
+	};
 
 private:
 	Entity *_map[GAME_H][GAME_W];
 	uint64_t _frame;
-	WINDOW *_game;
+	WINDOW *_window;
 
 public:
 	Game();
@@ -40,8 +61,12 @@ public:
 
 	int run();
 
-	void push(Entity &entity);
+	void push(Entity *entity);
 	void pop(Entity *entity);
+	void move(Entity *entity, int nx, int ny);
+	Entity *get(int x, int y);
+
+	uint64_t get_frame() const;
 };
 
 #endif /* !__GAME_H */

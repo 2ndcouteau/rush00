@@ -10,29 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_CLASS_HPP
-# define RENDER_CLASS_HPP
+#ifndef __RENDER_H
+# define __RENDER_H
 
-#include <iostream>
+#include "game.h"
 
-class Render
-{
-	private:
-		enum priority{PLAYER, ENMEY, ENV}
-	protected:
-		priority _priority;
+class Render {
+protected:
+	enum Priority { PLAYER, ENEMY, ENV };
 
-	public:
-		Render(void);
-		Render(Render const &src);
-		~Render(void);
+private:
+	Priority _priority;
 
-		Render &	operator=(Render const &rhs);
+public:
+	Render(Priority _priority);
 
-//		void	draw_map(Game *);
+	Render();
+	Render(Render const &src);
+	~Render();
 
+	Render &operator=(Render const &rhs);
+
+	void render(Game &);
 };
 
-//std::ostream &	operator<<(std::ostream &o, Render const &rhs);
-
-#endif
+#endif /* !__RENDER_H */

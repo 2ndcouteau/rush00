@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Render.hpp"
+#include <render.h>
 
+#include "render.h"
 
-Render::Render(void) 
+Render::Render()
 {
 //	std::cout << " Render Default Constructor " << std::endl;
 	return;
@@ -26,7 +27,7 @@ Render::Render(Render const &src)
 	return;
 }
 
-Render::~Render(void)
+Render::~Render()
 {
 //	std::cout << " Render Destructor " << std::endl;
 	return;
@@ -41,3 +42,9 @@ Render &	Render::operator=(Render const &rhs)
 
 	return *this;
 }
+
+void Render::render(Game &) {
+
+}
+
+Render::Render(Render::Priority _priority) : _priority(_priority) { }

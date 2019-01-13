@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Control.hpp"
+#include <control.h>
 
+#include "control.h"
 
-Control::Control(void) 
+Control::Control()
 {
 //	std::cout << " Control Default Constructor " << std::endl;
 	return;
@@ -26,7 +27,7 @@ Control::Control(Control const &src)
 	return;
 }
 
-Control::~Control(void)
+Control::~Control()
 {
 //	std::cout << " Control Destructor " << std::endl;
 	return;
@@ -40,4 +41,8 @@ Control &	Control::operator=(Control const &rhs)
 //		this->_foo = rhs.getFoo();
 
 	return *this;
+}
+
+void Control::control(Game &, int input) {
+
 }

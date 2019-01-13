@@ -3,7 +3,6 @@ RETRO_OBJ += src/main.o \
              src/collide.o \
              src/control.o \
              src/enemy.o \
-             src/entity.o \
              src/move.o \
              src/player.o \
              src/render.o \

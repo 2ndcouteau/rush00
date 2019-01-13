@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Collide.hpp"
+#include <collide.h>
 
+#include "collide.h"
 
-Collide::Collide(void) 
+Collide::Collide()
 {
 //	std::cout << " Collide Default Constructor " << std::endl;
 	return;
@@ -26,7 +27,7 @@ Collide::Collide(Collide const &src)
 	return;
 }
 
-Collide::~Collide(void)
+Collide::~Collide()
 {
 //	std::cout << " Collide Destructor " << std::endl;
 	return;
@@ -41,3 +42,9 @@ Collide &	Collide::operator=(Collide const &rhs)
 
 	return *this;
 }
+
+void Collide::collide(Game &) {
+
+}
+
+Collide::Collide(size_t hp, uint8_t hitbox) : _hp(hp), _hitbox(hitbox) { }

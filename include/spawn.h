@@ -10,28 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPAWN_CLASS_HPP
-# define SPAWN_CLASS_HPP
+#ifndef __SPAWN_H
+# define __SPAWN_H
 
-#include <iostream>
+#include "game.h"
 
-class Spawn
-{
-	private:
+class Spawn {
+public:
+	Spawn();
+	Spawn(Spawn const &src);
+	~Spawn();
 
-	protected:
+	Spawn &operator=(Spawn const &rhs);
 
-	public:
-		Spawn(void);
-		Spawn(Spawn const &src);
-		~Spawn(void);
-
-		Spawn &	operator=(Spawn const &rhs);
-
-		void spwan(Game &);
-//		Enemy*	generate_enemies();
+	void spwan(Game &);
 };
 
-//std::ostream &	operator<<(std::ostream &o, Spawn const &rhs);
-
-#endif
+#endif /* !__SPAWN_H */

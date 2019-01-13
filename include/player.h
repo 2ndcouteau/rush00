@@ -13,24 +13,20 @@
 #ifndef PLAYER_CLASS_HPP
 # define PLAYER_CLASS_HPP
 
-#include <iostream>
+#include "collide.h"
+#include "control.h"
+#include "render.h"
 
-class Player : public Collide, public Move, public Render, public Collide
-{
-	private:
+class Player : public Game::Entity,
+	public Collide, public Control, public Render {
+public:
+	Player(int x, int y, size_t hp);
 
-	protected:
+	Player();
+	Player(Player const &src);
+	~Player();
 
-
-	public:
-		Player(void);
-		Player(Player const &src);
-		~Player(void);
-
-		Player &	operator=(Player const &rhs);
-
+	Player &operator=(Player const &rhs);
 };
-
-//std::ostream &	operator<<(std::ostream &o, Player const &rhs);
 
 #endif

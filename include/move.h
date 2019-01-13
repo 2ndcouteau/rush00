@@ -10,34 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MOVE_CLASS_HPP
-# define MOVE_CLASS_HPP
+#ifndef __MOVE_H
+# define __MOVE_H
 
-#include <iostream>
 #include "game.h"
 
-class Move
-{
-	private:
+class Move {
+private:
+	int _speed;
+	int _direction;
 
-	protected:
-		int		_speed;
-		int		_direction;
+public:
+	Move();
+	Move(Move const &src);
+	~Move();
 
-	public:
-		Move(void);
-		Move(Move const &src);
-		~Move(void);
+	Move &operator=(Move const &rhs);
 
-		Move &	operator=(Move const &rhs);
-
-
-		void move(Game &);
-
-		int	getSpeed() const;
-		int	getDirection() const;
+	void move(Game &);
 };
 
-//std::ostream &	operator<<(std::ostream &o, Move const &rhs);
-
-#endif
+#endif /* !__MOVE_H */

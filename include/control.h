@@ -10,29 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONTROL_CLASS_HPP
-# define CONTROL_CLASS_HPP
+#ifndef __CONTROL_H
+# define __CONTROL_H
 
-#include <iostream>
 #include "game.h"
 
-class Control
-{
-	private:
+class Control {
+public:
+	Control();
+	Control(Control const &src);
+	~Control();
 
-	protected:
+	Control &operator=(Control const &rhs);
 
-
-	public:
-		Control(void);
-		Control(Control const &src);
-		~Control(void);
-
-		Control &	operator=(Control const &rhs);
-
-		void control(Game &);
+	void control(Game &, int input);
 };
 
-//std::ostream &	operator<<(std::ostream &o, Control const &rhs);
-
-#endif
+#endif /* !__CONTROL_H */

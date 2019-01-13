@@ -10,29 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLLIDE_CLASS_HPP
-# define COLLIDE_CLASS_HPP
+#ifndef __COLLIDE_H
+# define __COLLIDE_H
 
-#include <iostream>
+#include "game.h"
 
-class Collide
-{
-	private:
+class Collide {
+private:
+	std::size_t _hp;
+	std::uint8_t _hitbox;
 
-	protected:
-		std::size_t		_hp;
+public:
+	Collide(size_t hp, uint8_t hitbox);
 
-	public:
-		Collide(void);
-		Collide(Collide const &src);
-		~Collide(void);
+	Collide();
+	Collide(Collide const &src);
+	~Collide();
 
-		Collide &	operator=(Collide const &rhs);
+	Collide &operator=(Collide const &rhs);
 
-		void collide(Game &);
-			// check collision and delete entity
+	void collide(Game &);
 };
 
-//std::ostream &	operator<<(std::ostream &o, Collide const &rhs);
-
-#endif
+#endif /* !__COLLIDE_H */

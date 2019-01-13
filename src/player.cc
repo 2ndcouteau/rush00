@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Player.hpp"
+#include <player.h>
 
+#include "player.h"
 
-Player::Player(void) 
+Player::Player()
 {
 //	std::cout << " Player Default Constructor " << std::endl;
 	return;
@@ -26,7 +27,7 @@ Player::Player(Player const &src)
 	return;
 }
 
-Player::~Player(void)
+Player::~Player()
 {
 //	std::cout << " Player Destructor " << std::endl;
 	return;
@@ -41,3 +42,6 @@ Player &	Player::operator=(Player const &rhs)
 
 	return *this;
 }
+
+Player::Player(int x, int y, size_t hp)
+	: Entity(x, y, Game::GOOD), Collide(hp, 1), Render(Render::PLAYER) { }

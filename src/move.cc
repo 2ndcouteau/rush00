@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Move.hpp"
+#include <move.h>
 
+#include "move.h"
 
-Move::Move(void)
+Move::Move()
 {
 	// std::cout << " Move Default Constructor " << std::endl;
 	return;
@@ -26,7 +27,7 @@ Move::Move(Move const &src)
 	return;
 }
 
-Move::~Move(void)
+Move::~Move()
 {
 	// std::cout << " Move Destructor " << std::endl;
 	return;
@@ -42,14 +43,7 @@ Move &	Move::operator=(Move const &rhs)
 	return *this;
 }
 
+void Move::move(Game &) {
 
-int		Move::getSpeed() const
-{
-	return (this->_speed);
 }
 
-
-int		Move::getDirection() const
-{
-	return (this->_direction);
-}

@@ -13,24 +13,19 @@
 #ifndef ENEMY_CLASS_HPP
 # define ENEMY_CLASS_HPP
 
-#include <iostream>
+#include "collide.h"
+#include "move.h"
+#include "spawn.h"
+#include "render.h"
 
-class Enemy : public Collide, public Move, public Spawn, public Render, public Collide
-{
-	private:
+class Enemy : public Game::Entity,
+	public Collide, public Move, public Spawn, public Render {
+public:
+	Enemy();
+	Enemy(Enemy const &src);
+	~Enemy();
 
-	protected:
-
-
-	public:
-		Enemy(void);
-		Enemy(Enemy const &src);
-		~Enemy(void);
-
-		Enemy &	operator=(Enemy const &rhs);
-
+	Enemy &operator=(Enemy const &rhs);
 };
-
-//std::ostream &	operator<<(std::ostream &o, Enemy const &rhs);
 
 #endif

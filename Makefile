@@ -21,12 +21,13 @@ CXX    := clang++
 AS     := gcc
 LD     := clang++
 AR     := ar
-CFLAGS += -Wall -Wextra -Werror -std=c++98
+CFLAGS += -std=c++98
 
 ifeq ($(DEBUG),)
   CONFIG   = release
   CFLAGS  += -flto -O3
   LDFLAGS += -flto
+  CFLAGS  += -Wall -Wextra -Werror
 else
   CONFIG         = debug
   TARGET_SUFFIX  = -debug

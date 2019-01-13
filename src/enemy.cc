@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Enemy.hpp"
+#include "enemy.h"
 
-
-Enemy::Enemy(void)
+Enemy::Enemy()
 {
 //	std::cout << " Enemy Default Constructor " << std::endl;
 	return;
@@ -26,7 +25,7 @@ Enemy::Enemy(Enemy const &src)
 	return;
 }
 
-Enemy::~Enemy(void)
+Enemy::~Enemy()
 {
 //	std::cout << " Enemy Destructor " << std::endl;
 	return;

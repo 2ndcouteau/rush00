@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Spawn.hpp"
+#include <spawn.h>
 
+#include "spawn.h"
 
-Spawn::Spawn(void) 
+Spawn::Spawn()
 {
 //	std::cout << " Spawn Default Constructor " << std::endl;
 	return;
@@ -26,7 +27,7 @@ Spawn::Spawn(Spawn const &src)
 	return;
 }
 
-Spawn::~Spawn(void)
+Spawn::~Spawn()
 {
 //	std::cout << " Spawn Destructor " << std::endl;
 	return;
@@ -40,4 +41,8 @@ Spawn &	Spawn::operator=(Spawn const &rhs)
 //		this->_foo = rhs.getFoo();
 
 	return *this;
+}
+
+void Spawn::spwan(Game &) {
+
 }
