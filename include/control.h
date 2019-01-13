@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:37:02 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:38:22 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 12:03:52 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CONTROL_CLASS_HPP
 
 #include <iostream>
+#include "game.h"
 
 class Control
 {
@@ -29,7 +30,7 @@ class Control
 
 		Control &	operator=(Control const &rhs);
 
-//		get_control(char input);
+		void control(Game &);
 };
 
 //std::ostream &	operator<<(std::ostream &o, Control const &rhs);

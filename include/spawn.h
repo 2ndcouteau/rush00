@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:45:33 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:48:59 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 12:04:41 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Spawn
 
 		Spawn &	operator=(Spawn const &rhs);
 
+		void spwan(Game &);
 //		Enemy*	generate_enemies();
 };
 

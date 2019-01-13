@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:35:34 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 10:21:36 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 12:05:09 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Collide
 
 		Collide &	operator=(Collide const &rhs);
 
-		static bool		collide(Game &, int x, int y);
+		void collide(Game &);
 			// check collision and delete entity
 };
 

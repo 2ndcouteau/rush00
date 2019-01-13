@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:41:19 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:51:00 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 12:04:02 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MOVE_CLASS_HPP
 
 #include <iostream>
+#include "game.h"
 
 class Move
 {
@@ -30,6 +31,8 @@ class Move
 
 		Move &	operator=(Move const &rhs);
 
+
+		void move(Game &);
 
 		int	getSpeed() const;
 		int	getDirection() const;

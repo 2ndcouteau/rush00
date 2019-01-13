@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:45:08 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:50:22 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 11:53:21 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 class Render
 {
 	private:
-
+		enum priority{PLAYER, ENMEY, ENV}
 	protected:
-
+		priority _priority;
 
 	public:
 		Render(void);

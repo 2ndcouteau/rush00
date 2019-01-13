@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game.h                                             :+:      :+:    :+:   */
+/*   game.cc                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 00:00:42 by alucas-           #+#    #+#             */
-/*   Updated: 1970/01/01 00:00:42 by alucas-          ###   ########.fr       */
+/*   Updated: 2019/01/13 12:02:11 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,31 @@ int Game::run() {
 
 		for (int i = 0; i < GAME_H; ++i) {
 			for (int j = 0; j < GAME_W; ++j) {
-				Collide::collide(*this, i, j);
 
 				for (Entity *e = _map[i][j]; e; e = e->next) {
 
+					// Add contition check input_value
 					if (Control *c = dynamic_cast<Control *>(e)) {
-						/* TODO: Do control */
+						c->control(this);
 					}
 
 					if (Move *m = dynamic_cast<Move *>(e)) {
-						/* TODO: Do move */
+						m->move(*this);
 					}
 
+					if (Spawn *s = dynamic_cast<Spawn *>(e)) {
+						s->spwan(*this);
+					}
+
+					if (Collide *cl = dynamic_cast<Collide *>(e)) {
+						cl->collide(*this);
+					}
+
+					this->render();
 				}
 			}
 		}
+
 
 		wrefresh(_game);
 
