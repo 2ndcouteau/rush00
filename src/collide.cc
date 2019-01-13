@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:34:36 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 14:58:30 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 18:58:12 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,13 @@ Collide &	Collide::operator=(Collide const &rhs)
 {
 //	std::cout << " Collide Assignement Operator " << std::endl;
 
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
+	if (this != &rhs)
+		this->_hp = rhs.get_hp();
 
 	return *this;
 }
 
 Collide::Collide(size_t hp) : _hp(hp) { }
-
-static void on_die(Game::Entity *a, Game::Entity *b)
-{
-	if ((a->type == Game::BAD && b->type == Game::GOOD) &&
-		dynamic_cast<Laser *>(b)) {
-		if (dynamic_cast<Enemy *>(a))
-			score += 5;
-		else
-			score += 1;
-	}
-	if ((b->type == Game::BAD && a->type == Game::GOOD) &&
-		dynamic_cast<Laser *>(a)) {
-		if (dynamic_cast<Enemy *>(b))
-			score += 5;
-		else
-			score += 1;
-	}
-}
 
 void Collide::collide(Game &game) {
 	Game::Entity *a = dynamic_cast<Game::Entity *>(this);

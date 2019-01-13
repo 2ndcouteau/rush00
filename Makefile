@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 1970/01/01 00:00:42 by alucas-           #+#    #+#              #
-#    Updated: 2019/01/13 09:18:14 by qrosa            ###   ########.fr        #
+#    Updated: 2019/01/13 18:54:14 by qrosa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ ifeq ($(DEBUG),)
   CONFIG   = release
   CFLAGS  += -flto -O3
   LDFLAGS += -flto
-  #CFLAGS  += -Wall -Wextra -Werror
+  CFLAGS  += -Wall -Wextra -Werror
 else
   CONFIG         = debug
   TARGET_SUFFIX  = -debug

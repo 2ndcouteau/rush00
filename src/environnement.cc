@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:24:13 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 15:34:40 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:20:49 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,8 @@ Environnement::~Environnement(void)
 	return;
 }
 
-Environnement &	Environnement::operator=(Environnement const &rhs)
+Environnement &	Environnement::operator=(Environnement const &)
 {
-//	std::cout << " Environnement Assignement Operator " << std::endl;
-
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
-
 	return *this;
 }
 

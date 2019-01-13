@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:45:21 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 15:41:07 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:16:35 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ Spawn::~Spawn()
 
 Spawn &	Spawn::operator=(Spawn const &rhs)
 {
-//	std::cout << " Spawn Assignement Operator " << std::endl;
-
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
+	if (this != &rhs)
+		this->_frequency = rhs.getFrequency();
 
 	return *this;
 }
@@ -58,3 +56,9 @@ void Spawn::spawn(Game & game) {
 }
 
 Spawn::Spawn(uint64_t _frequency) : _frequency(_frequency) { }
+
+
+uint64_t	Spawn::getFrequency() const
+{
+	return (this->_frequency);
+}

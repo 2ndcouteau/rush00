@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 15:24:09 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 15:34:04 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:20:53 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Environnement : public Game::Entity,
 		Environnement(Environnement const &src);
 		virtual ~Environnement(void);
 
-		Environnement &	operator=(Environnement const &rhs);
+		Environnement &	operator=(Environnement const &);
 
 	void render(Game &game);
 };

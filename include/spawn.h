@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:45:33 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 12:04:41 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:15:52 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ public:
 
 	Spawn &operator=(Spawn const &rhs);
 
+
 	virtual void spawn(Game &);
+
+	uint64_t	getFrequency(void) const;
 };
 
 #endif /* !__SPAWN_H */

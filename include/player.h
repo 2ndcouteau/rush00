@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 10:03:06 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 15:29:11 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:12:47 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ public:
 	Player(Player const &src);
 	virtual ~Player();
 
-	Player &operator=(Player const &rhs);
+	Player &operator=(Player const &);
 
 	void control(Game &game, int input);
 	void render(Game &game);

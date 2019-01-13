@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   laser.c                                            :+:      :+:    :+:   */
+/*   laser.cc                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:34:36 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:35:28 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:20:19 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ Laser &	Laser::operator=(Laser const &rhs)
 {
 //	std::cout << " Laser Assignement Operator " << std::endl;
 
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
+	if (this != &rhs)
+
+		this->_color = rhs.getColor();
+		this->_visual = rhs.getVisual();
 
 	return *this;
 }
@@ -58,4 +60,15 @@ void Laser::render(Game &game) {
 	wattron(game.get_window(), COLOR_PAIR(_color));
 	mvwprintw(game.get_window(), y, x, (char[]){ _visual, '\0' });
 	wattroff(game.get_window(), COLOR_PAIR(_color));
+}
+
+
+char Laser::getVisual() const
+{
+	return (this->_visual);
+}
+
+int	Laser::getColor() const
+{
+	return (this->_color);
 }

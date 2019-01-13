@@ -6,7 +6,7 @@
 /*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 00:00:42 by alucas-           #+#    #+#             */
-/*   Updated: 2019/01/13 12:02:11 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 18:56:24 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ Game::Entity &Game::Entity::operator=(const Game::Entity &rhs) {
 Game::Entity::Entity(int x, int y, Game::Type type)
 	: x(x), y(y), type(type), next(nullptr), frame(0), kill(false) { }
 
-Game::Game() : _map(), _frame(0), count(0) {
+Game::Game() :  count(0), _map(), _frame(0) {
 
 	/* Init term with no delay, no cursor and keypad active */
 	initscr();

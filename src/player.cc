@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   player.cc                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 10:02:56 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 10:03:04 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:13:33 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,14 @@ Player::~Player()
 	return;
 }
 
-Player &	Player::operator=(Player const &rhs)
+Player &	Player::operator=(Player const &)
 {
-//	std::cout << " Player Assignement Operator " << std::endl;
-
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
-
 	return *this;
 }
 
 Player::Player(int x, int y, size_t hp)
 	: Entity(x, y, Game::GOOD), Collide(hp), Control(), Render(Render::PLAYER)
 	{ }
-
-static int count = 0;
 
 void Player::control(Game &game, int input) {
 	switch (input) {

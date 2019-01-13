@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move.c                                             :+:      :+:    :+:   */
+/*   move.cc                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:40:54 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:52:27 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:12:27 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ Move &	Move::operator=(Move const &rhs)
 {
 	// std::cout << " Move Assignement Operator " << std::endl;
 
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
+	if (this != &rhs)
+		this->_frequency = rhs.getFrequency();
+		this->_direction = rhs.getDirection();
 
 	return *this;
 }
@@ -69,3 +70,13 @@ void Move::move(Game &game) {
 Move::Move(uint64_t frequency, Move::Direction direction)
 	: _frequency(frequency), _direction(direction) { }
 
+
+uint64_t	Move::getFrequency() const
+{
+	return (this->_frequency);
+}
+
+Move::Direction	Move::getDirection() const
+{
+	return (this->_direction);
+}

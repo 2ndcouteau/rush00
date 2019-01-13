@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:37:02 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 12:03:52 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:04:47 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ public:
 	Control(Control const &src);
 	~Control();
 
-	Control &operator=(Control const &rhs);
+	Control &operator=(Control const &);
 
-	virtual void control(Game &, int input);
+	virtual void control(Game &, int);
 };
 
 #endif /* !__CONTROL_H */

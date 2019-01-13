@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 10:03:23 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 15:15:18 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:05:48 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,9 @@ Enemy::~Enemy()
 	return;
 }
 
-Enemy &	Enemy::operator=(Enemy const &rhs)
+Enemy &	Enemy::operator=(Enemy const &)
 {
 //	std::cout << " Enemy Assignement Operator " << std::endl;
-
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
-
 	return *this;
 }
 

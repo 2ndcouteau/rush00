@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render.cc                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:44:57 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:45:06 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:14:14 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ Render::~Render()
 
 Render &	Render::operator=(Render const &rhs)
 {
-//	std::cout << " Render Assignement Operator " << std::endl;
 
-//	if (this != &rhs)
-//		this->_foo = rhs.getFoo();
+	if (this != &rhs)
+		this->_priority = rhs.get_priority();
 
 	return *this;
 }

@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:41:19 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 12:04:02 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 19:10:13 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ public:
 	Move &operator=(Move const &rhs);
 
 	virtual void move(Game &);
+	
+	uint64_t		getFrequency(void) const;
+	Direction 		getDirection(void) const;
+
 };
 
 #endif /* !__MOVE_H */
