@@ -51,10 +51,14 @@ public:
 		Entity &operator=(Entity const &rhs);
 	};
 
+	WINDOW *_info;
+	int64_t count;
+
 private:
 	Entity *_map[GAME_W][GAME_H];
 	uint64_t _frame;
 	WINDOW *_window;
+
 
 public:
 	Game();

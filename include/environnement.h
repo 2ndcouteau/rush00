@@ -19,20 +19,16 @@
 #include "render.h"
 
 class Environnement : public Game::Entity,
-	public Collide, public Move, public Render
+	public Move, public Render
 {
-	private:
-
-	protected:
-		Environnement(void);
-
 	public:
-		Environnement(int hp, std::string const & type);
+		Environnement(int x, int y);
 		Environnement(Environnement const &src);
 		virtual ~Environnement(void);
 
 		Environnement &	operator=(Environnement const &rhs);
 
+	void render(Game &game);
 };
 
 //std::ostream &	operator<<(std::ostream &o, Environnement const &rhs);

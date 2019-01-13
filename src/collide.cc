@@ -12,8 +12,12 @@
 
 #include <collide.h>
 #include <cassert>
+#include <enemy.h>
+#include <laser.h>
 
 #include "collide.h"
+
+size_t score = 0;
 
 Collide::Collide()
 {
@@ -46,19 +50,70 @@ Collide &	Collide::operator=(Collide const &rhs)
 
 Collide::Collide(size_t hp) : _hp(hp) { }
 
+static void on_die(Game::Entity *a, Game::Entity *b)
+{
+	if ((a->type == Game::BAD && b->type == Game::GOOD) &&
+		dynamic_cast<Laser *>(b)) {
+		if (dynamic_cast<Enemy *>(a))
+			score += 5;
+		else
+			score += 1;
+	}
+	if ((b->type == Game::BAD && a->type == Game::GOOD) &&
+		dynamic_cast<Laser *>(a)) {
+		if (dynamic_cast<Enemy *>(b))
+			score += 5;
+		else
+			score += 1;
+	}
+}
 
 void Collide::collide(Game &game) {
-	Game::Entity *e = dynamic_cast<Game::Entity *>(this);
+	Game::Entity *a = dynamic_cast<Game::Entity *>(this);
 
-	assert(e);
-	for (Game::Entity *it = game.get(e->x, e->y); it; it = it->next)
-		if (it != e && it->type != e->type)
-			if (Collide *cl = dynamic_cast<Collide *>(it)) {
+	assert(a);
+	for (Game::Entity *b = game.get(a->x, a->y); b; b = b->next)
+		if (b != a && b->type != a->type)
+			if (Collide *cl = dynamic_cast<Collide *>(b)) {
 				_hp -= 1;
-				if (_hp == 0)
-					e->kill = true;
+				if (_hp == 0) {
+					a->kill = true;
+					if ((a->type == Game::BAD && b->type == Game::GOOD) &&
+						dynamic_cast<Laser *>(b)) {
+						if (dynamic_cast<Enemy *>(a))
+							score += 5;
+						else
+							score += 1;
+					}
+					else if ((b->type == Game::BAD && a->type == Game::GOOD) &&
+						dynamic_cast<Laser *>(a)) {
+						if (dynamic_cast<Enemy *>(b))
+							score += 5;
+						else
+							score += 1;
+					}
+				}
 				cl->_hp -= 1;
-				if (cl->_hp == 0)
+				if (cl->_hp == 0) {
 					dynamic_cast<Game::Entity *>(cl)->kill = true;
+					if ((a->type == Game::BAD && b->type == Game::GOOD) &&
+						dynamic_cast<Laser *>(b)) {
+						if (dynamic_cast<Enemy *>(a))
+							score += 5;
+						else
+							score += 1;
+					}
+					else if ((b->type == Game::BAD && a->type == Game::GOOD) &&
+						dynamic_cast<Laser *>(a)) {
+						if (dynamic_cast<Enemy *>(b))
+							score += 5;
+						else
+							score += 1;
+					}
+				}
 			}
+}
+
+size_t Collide::get_hp() const {
+	return _hp;
 }

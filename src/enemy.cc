@@ -44,15 +44,16 @@ Enemy &	Enemy::operator=(Enemy const &rhs)
 
 Enemy::Enemy(int x, int y, size_t hp)
 	: Entity(x, y, Game::BAD), Collide(hp), Move(40, Down),
-	  Spawn(120), Render(Render::ENEMY) { }
+	  Spawn(30), Render(Render::ENEMY) { }
 
 void Enemy::spawn(Game &game) {
-	if ((game.get_frame() % Spawn::_frequency) == 0)			// 1 chance sur 4 // 4:12
-		game.push(new Laser(x, y, Game::BAD, 'T', 6));
+	if ((rand() % 4) == 0 &&
+		(game.get_frame() % Spawn::_frequency) == 0)
+		game.push(new Laser(x, y + 1, Game::BAD, 'T', 4));
 }
 
 void Enemy::render(Game &game) {
-	wattron(game.get_window(), COLOR_PAIR(4));
+	wattron(game.get_window(), COLOR_PAIR(1));
 	mvwprintw(game.get_window(), y, x, "W");
-	wattroff(game.get_window(), COLOR_PAIR(4));
+	wattroff(game.get_window(), COLOR_PAIR(1));
 }

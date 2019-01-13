@@ -12,14 +12,17 @@
 
 #include <game.h>
 #include <cassert>
+#include <zconf.h>
 
 #include "game.h"
 #include "player.h"
 #include "collide.h"
 #include "control.h"
+#include "environnement.h"
 #include "move.h"
 #include "render.h"
 #include "spawn.h"
+#include "enemy.h"
 
 Game::Entity::Entity() : x(), y(), type(), next(), frame(), kill() { }
 
@@ -40,9 +43,9 @@ Game::Entity &Game::Entity::operator=(const Game::Entity &rhs) {
 }
 
 Game::Entity::Entity(int x, int y, Game::Type type)
-	: x(x), y(y), type(type), next(nullptr), frame(0) { }
+	: x(x), y(y), type(type), next(nullptr), frame(0), kill(false) { }
 
-Game::Game() : _map(), _frame(0) {
+Game::Game() : _map(), _frame(0), count(0) {
 
 	/* Init term with no delay, no cursor and keypad active */
 	initscr();
@@ -62,6 +65,7 @@ Game::Game() : _map(), _frame(0) {
 
 	/* Main window creation.. */
 	_window = newwin(GAME_H, GAME_W, 0, 0);
+	_info = newwin(3, GAME_W, GAME_H, 0);
 }
 
 Game::~Game() {
@@ -72,9 +76,11 @@ Game::~Game() {
 }
 
 int Game::run() {
-	Spawn spawner = Spawn(60);
+	Player *player = new Player(GAME_W / 2, GAME_H - 5, 10);
+	push(player);
 
-	push(new Player(GAME_W / 2, GAME_H - 5, 10));
+	for (int i = 0; i < 9; ++i)
+		push(new Environnement((rand() % GAME_W), (rand() % GAME_H)));
 
 	for (int input; (input = getch()) != 27;) {
 
@@ -85,11 +91,15 @@ int Game::run() {
 		++this->_frame;
 		std::chrono::steady_clock::time_point end =
 			std::chrono::steady_clock::now() +
-			std::chrono::milliseconds(8);
+			std::chrono::milliseconds(10);
 
 		werase(_window);
+		mvwprintw(_info, 1, 1, "HP: %2llu | ", player->get_hp());
 
-		spawner.spawn(*this);
+		if ((_frame % 60) == 0)
+			push(new Enemy((rand() % GAME_W), 1, 1));
+		else if ((_frame % 80) == 0)
+			push(new Environnement((rand() % GAME_W), 1));
 
 		for (int y = 1; y < GAME_H - 1; ++y) {
 			for (int x = 1; x < GAME_W - 1; ++x) {
@@ -108,6 +118,19 @@ int Game::run() {
 						m->move(*this);
 
 					if (e->kill) {
+						if (e == player) {
+							mvwprintw(_info, 1, 1,
+								":( YOU DIED ! (Press any key to quit)");
+							box(_info, ACS_VLINE, ACS_HLINE);
+							wrefresh(_info);
+
+							nodelay(stdscr, false);
+							input = getch();
+							(void)input;
+
+							return 0;
+						}
+
 						pop(e);
 						continue;
 					}
@@ -121,30 +144,47 @@ int Game::run() {
 			}
 		}
 
+		wprintw(_info, "SCORE: %2llu", score);
+
+		box(_info, ACS_VLINE, ACS_HLINE);
+		wrefresh(_info);
+
 		box(_window, ACS_VLINE, ACS_HLINE);
 		wrefresh(_window);
+
 		std::this_thread::sleep_until(end);
 	}
 
 	return 0;
 }
 
+static uint64_t bad_amount = 0;
+
 void Game::push(Entity *entity) {
 	int x = entity->x, y = entity->y;
 
-	assert(x < GAME_W && y < GAME_H && x >= 0 && y >= 0);
+	if (!(x < GAME_W && y < GAME_H && x >= 0 && y >= 0) ||
+		(entity->type == BAD && bad_amount >= 15)) {
+		delete entity;
+		return;
+	}
+
+	if (entity->type == BAD)
+		++bad_amount;
 
 	Entity **it;
 
 	if (Render *r = dynamic_cast<Render *>(entity)) {
 		for (it = &_map[x][y]; *it; it = &(*it)->next)
 			if (Render *rit = dynamic_cast<Render *>(*it))
-				if (r->get_priority() <= (*rit).get_priority())
+				if (r->get_priority() > (*rit).get_priority())
 					break;
 	} else it = &_map[x][y];
 
 	entity->next = *it;
 	*it = entity;
+
+	++count;
 }
 
 void Game::move(Entity *entity, int nx, int ny)
@@ -152,22 +192,24 @@ void Game::move(Entity *entity, int nx, int ny)
 	int x = entity->x, y = entity->y;
 
 	/* validate user input */
-	if (nx >= GAME_W || ny >= GAME_H || nx < 0 || ny < 0)
+	if (nx >= GAME_W - 1 || ny >= GAME_H - 1 || nx <= 0 || ny <= 0)
 		return (entity->kill = true), (void)0;
 
 	assert(x < GAME_W && y < GAME_H && x >= 0 && y >= 0);
-
-	entity->x = nx;
-	entity->y = ny;
 
 	/* Delete from linked list (previous position) */
 	for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
 		if (*it == entity) {
 			*it = entity->next;
+			--count;
+			if (entity->type == BAD)
+				--bad_amount;
 			break;
 		}
 
 	/* Insert at new position and set set new position */
+	entity->x = nx;
+	entity->y = ny;
 	push(entity);
 
 	if (Collide *cl = dynamic_cast<Collide *>(entity))
@@ -182,10 +224,14 @@ void Game::pop(Entity *entity) {
 	for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
 		if (*it == entity) {
 			*it = entity->next;
-			break;
+			--count;
+			if (entity->type == BAD)
+				--bad_amount;
+			delete entity;
+			return;
 		}
 
-	delete entity;
+	exit(1);
 }
 
 Game::Entity *Game::get(int x, int y) {

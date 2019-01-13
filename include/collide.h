@@ -15,6 +15,8 @@
 
 #include "game.h"
 
+extern size_t score;
+
 class Collide {
 private:
 	std::size_t _hp;
@@ -29,6 +31,8 @@ public:
 	Collide &operator=(Collide const &rhs);
 
 	void collide(Game &);
+
+	size_t get_hp() const;
 };
 
 #endif /* !__COLLIDE_H */

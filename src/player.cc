@@ -46,6 +46,8 @@ Player::Player(int x, int y, size_t hp)
 	: Entity(x, y, Game::GOOD), Collide(hp), Control(), Render(Render::PLAYER)
 	{ }
 
+static int count = 0;
+
 void Player::control(Game &game, int input) {
 	switch (input) {
 	case KEY_LEFT:
@@ -61,7 +63,7 @@ void Player::control(Game &game, int input) {
 		if (y < GAME_H - 2) game.move(this, x, y + 1);
 		break;
 	case ' ':
-		game.push(new Laser(x, y, Game::GOOD, '\'', 3));
+		game.push(new Laser(x, y - 1, Game::GOOD, '\'', 3));
 		break;
 	default:
 		break;
@@ -69,7 +71,7 @@ void Player::control(Game &game, int input) {
 }
 
 void Player::render(Game &game) {
-	wattron(game.get_window(), COLOR_PAIR(1));
+	wattron(game.get_window(), COLOR_PAIR(2));
 	mvwprintw(game.get_window(), y, x, "^");
-	wattroff(game.get_window(), COLOR_PAIR(1));
+	wattroff(game.get_window(), COLOR_PAIR(2));
 }

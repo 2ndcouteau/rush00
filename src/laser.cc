@@ -44,9 +44,11 @@ Laser &	Laser::operator=(Laser const &rhs)
 }
 
 Laser::Laser(int x, int y, Game::Type type, char visual, int color)
-	: Entity(x, y, type), Collide(1), Move(20, Move::Up),
+	: Entity(x, y, type),
+	  Collide(1),
+	  Move(5, Move::Up),
 	  Render(type == Game::GOOD ? PLAYER : ENEMY),
-	_visual(visual), _color(color) {
+	  _visual(visual), _color(color) {
 
 	if (type == Game::BAD)
 		Move::_direction = Down;

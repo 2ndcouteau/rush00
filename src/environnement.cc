@@ -12,7 +12,8 @@
 
 #include "environnement.h"
 
-Environnement::Environnement(void)
+Environnement::Environnement(int x, int y)
+ : Entity(x, y, Game::GOOD), Move(120, Down), Render(Render::ENV)
 {
 //	std::cout << " Environnement Default Constructor " << std::endl;
 	return;
@@ -41,5 +42,8 @@ Environnement &	Environnement::operator=(Environnement const &rhs)
 	return *this;
 }
 
-//Environnement::Environnement(int x, int y, size_t hp)
-//	: Entity(x, y, Game::BAD), Collide(hp), Render(Render::ENV) { }
+void Environnement::render(Game &game) {
+	wattron(game.get_window(), COLOR_PAIR(5));
+	mvwprintw(game.get_window(), y, x, "*");
+	wattroff(game.get_window(), COLOR_PAIR(5));
+}
