@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spawn.c                                            :+:      :+:    :+:   */
+/*   spawn.cc                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 09:45:21 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:45:31 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 15:41:07 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,30 @@ Spawn &	Spawn::operator=(Spawn const &rhs)
 	return *this;
 }
 
-void Spawn::spawn(Game &) {
-
+void Spawn::spawn(Game & game) {
+	if ((game->_frame % (rand() % 12)) < 4)			// 1 chance sur 4 // 4:12
+	{
+		switch (rand() % 2) {
+			case 0:
+				push(new Enemy((rand() % GAME_W), 1, 1));
+			case 1:
+				push(new Environnement((rand() % GAME_W), 1, 1));
+		}
+	}
 }
+
+void Spawn::spawn(Laser & laser) {
+	if ((Enemy->_frame % (rand() % 40)) < 4)			// 1 chance sur 10 // 4:40
+	{
+
+		// switch (rand() % 2) {
+		// 	case 0:
+		// 		push(new Enemy((rand() % GAME_W), 1, 1));
+		// 	case 1:
+		// 		push(new Environnement((rand() % GAME_W), 1, 1));
+		}
+	}
+}
+
 
 Spawn::Spawn(uint64_t _frequency) : _frequency(_frequency) { }

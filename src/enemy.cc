@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enemy.c                                            :+:      :+:    :+:   */
+/*   enemy.cc                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 10:03:23 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 10:10:06 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 15:15:18 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,7 @@ Enemy &	Enemy::operator=(Enemy const &rhs)
 
 	return *this;
 }
+
+
+Enemy::Enemy(int x, int y, size_t hp)
+	: Entity(x, y, Game::BAD), Collide(hp), Render(Render::ENEMY) { }

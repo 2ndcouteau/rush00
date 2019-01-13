@@ -6,7 +6,7 @@
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 10:03:06 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 10:06:34 by qrosa            ###   ########.fr       */
+/*   Updated: 2019/01/13 15:29:11 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ public:
 
 	Player();
 	Player(Player const &src);
-	~Player();
+	virtual ~Player();
+
+	virtual void takeDamage(int);
 
 	Player &operator=(Player const &rhs);
 
