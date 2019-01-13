@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <laser.h>
 #include "enemy.h"
 
 Enemy::Enemy()
@@ -41,6 +42,17 @@ Enemy &	Enemy::operator=(Enemy const &rhs)
 	return *this;
 }
 
-
 Enemy::Enemy(int x, int y, size_t hp)
-	: Entity(x, y, Game::BAD), Collide(hp), Render(Render::ENEMY) { }
+	: Entity(x, y, Game::BAD), Collide(hp), Move(40, Down),
+	  Spawn(120), Render(Render::ENEMY) { }
+
+void Enemy::spawn(Game &game) {
+	if ((game.get_frame() % Spawn::_frequency) == 0)			// 1 chance sur 4 // 4:12
+		game.push(new Laser(x, y, Game::BAD, 'T', 6));
+}
+
+void Enemy::render(Game &game) {
+	wattron(game.get_window(), COLOR_PAIR(4));
+	mvwprintw(game.get_window(), y, x, "W");
+	wattroff(game.get_window(), COLOR_PAIR(4));
+}

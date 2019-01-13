@@ -13,7 +13,10 @@
 #ifndef ENVIRONNEMENT_CLASS_HPP
 # define ENVIRONNEMENT_CLASS_HPP
 
-#include <iostream>
+#include "collide.h"
+#include "move.h"
+#include "spawn.h"
+#include "render.h"
 
 class Environnement : public Game::Entity,
 	public Collide, public Move, public Render
@@ -24,14 +27,9 @@ class Environnement : public Game::Entity,
 		Environnement(void);
 
 	public:
-		Enemy(int hp, std::string const & type);
+		Environnement(int hp, std::string const & type);
 		Environnement(Environnement const &src);
-		~Environnement(void);
-
-		virtual ~Enemy(void);
-
-		virtual void takeDamage(int);
-
+		virtual ~Environnement(void);
 
 		Environnement &	operator=(Environnement const &rhs);
 

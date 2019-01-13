@@ -16,7 +16,7 @@
 #include "game.h"
 
 class Spawn {
-private:
+protected:
 	uint64_t _frequency;
 
 public:

@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <player.h>
-
 #include "player.h"
+#include "laser.h"
 
 Player::Player()
 {
@@ -44,27 +43,33 @@ Player &	Player::operator=(Player const &rhs)
 }
 
 Player::Player(int x, int y, size_t hp)
-	: Entity(x, y, Game::GOOD), Collide(hp), Render(Render::PLAYER) { }
+	: Entity(x, y, Game::GOOD), Collide(hp), Control(), Render(Render::PLAYER)
+	{ }
 
 void Player::control(Game &game, int input) {
 	switch (input) {
 	case KEY_LEFT:
-		game.move(this, x - 1, y);
+		if (x > 1) game.move(this, x - 1, y);
 		break;
 	case KEY_RIGHT:
-		game.move(this, x + 1, y);
+		if (x < GAME_W - 2) game.move(this, x + 1, y);
 		break;
 	case KEY_UP:
-		game.move(this, x, y - 1);
+		if (y > 1) game.move(this, x, y - 1);
 		break;
 	case KEY_DOWN:
-		game.move(this, x, y + 1);
+		if (y < GAME_H - 2) game.move(this, x, y + 1);
 		break;
 	case ' ':
-		game.push();
-		executor.push(new Laser(getPosX(), getPosY() - 1));
+		game.push(new Laser(x, y, Game::GOOD, '\'', 3));
 		break;
 	default:
 		break;
 	}
+}
+
+void Player::render(Game &game) {
+	wattron(game.get_window(), COLOR_PAIR(1));
+	mvwprintw(game.get_window(), y, x, "^");
+	wattroff(game.get_window(), COLOR_PAIR(1));
 }

@@ -26,11 +26,10 @@ public:
 	Player(Player const &src);
 	virtual ~Player();
 
-	virtual void takeDamage(int);
-
 	Player &operator=(Player const &rhs);
 
-	void control(Game &game, int input) override;
+	void control(Game &game, int input);
+	void render(Game &game);
 };
 
 #endif

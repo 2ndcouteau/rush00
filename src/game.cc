@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <game.h>
+#include <cassert>
 
 #include "game.h"
 #include "player.h"
@@ -20,10 +21,10 @@
 #include "render.h"
 #include "spawn.h"
 
-Game::Entity::Entity() : x(), y(), type(), next(), frame() { }
+Game::Entity::Entity() : x(), y(), type(), next(), frame(), kill() { }
 
 Game::Entity::Entity(const Game::Entity &src)
-	: x(), y(), type(), next(), frame() {
+	: x(), y(), type(), next(), frame(), kill() {
 	*this = src;
 }
 
@@ -39,7 +40,7 @@ Game::Entity &Game::Entity::operator=(const Game::Entity &rhs) {
 }
 
 Game::Entity::Entity(int x, int y, Game::Type type)
-	: x(x), y(y), type(type), next(), frame() { }
+	: x(x), y(y), type(type), next(nullptr), frame(0) { }
 
 Game::Game() : _map(), _frame(0) {
 
@@ -57,10 +58,10 @@ Game::Game() : _map(), _frame(0) {
 	init_pair(3, COLOR_GREEN, COLOR_BLACK);
 	init_pair(4, COLOR_CYAN, COLOR_BLACK);
 	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(6, COLOR_BLUE, COLOR_BLACK);
 
 	/* Main window creation.. */
 	_window = newwin(GAME_H, GAME_W, 0, 0);
-	box(_window, ACS_VLINE, ACS_HLINE);
 }
 
 Game::~Game() {
@@ -71,7 +72,9 @@ Game::~Game() {
 }
 
 int Game::run() {
-	push(new Player(15, 15, 10));
+	Spawn spawner = Spawn(60);
+
+	push(new Player(GAME_W / 2, GAME_H - 5, 10));
 
 	for (int input; (input = getch()) != 27;) {
 
@@ -84,9 +87,15 @@ int Game::run() {
 			std::chrono::steady_clock::now() +
 			std::chrono::milliseconds(8);
 
-		for (int x = 0; x < GAME_W; ++x) {
-			for (int y = 0; y < GAME_H; ++y) {
-				for (Entity *e = _map[x][y]; e; e = e->next) {
+		werase(_window);
+
+		spawner.spawn(*this);
+
+		for (int y = 1; y < GAME_H - 1; ++y) {
+			for (int x = 1; x < GAME_W - 1; ++x) {
+
+				for (Entity *e = _map[x][y], *next; e; e = next) {
+					next = e->next;
 
 					/* Avoid to re-update game entity */
 					if (e->frame == _frame) continue;
@@ -98,6 +107,11 @@ int Game::run() {
 					if (Move *m = dynamic_cast<Move *>(e))
 						m->move(*this);
 
+					if (e->kill) {
+						pop(e);
+						continue;
+					}
+
 					if (Spawn *s = dynamic_cast<Spawn *>(e))
 						s->spawn(*this);
 
@@ -107,6 +121,7 @@ int Game::run() {
 			}
 		}
 
+		box(_window, ACS_VLINE, ACS_HLINE);
 		wrefresh(_window);
 		std::this_thread::sleep_until(end);
 	}
@@ -114,14 +129,22 @@ int Game::run() {
 	return 0;
 }
 
-void Game::push(Entity *e) {
-	int x = e->x, y = e->y;
+void Game::push(Entity *entity) {
+	int x = entity->x, y = entity->y;
 
-	if (x >= GAME_W || y >= GAME_H || x < 0 || y < 0)
-		return;
+	assert(x < GAME_W && y < GAME_H && x >= 0 && y >= 0);
 
-	e->next = _map[x][y];
-	_map[x][y] = e;
+	Entity **it;
+
+	if (Render *r = dynamic_cast<Render *>(entity)) {
+		for (it = &_map[x][y]; *it; it = &(*it)->next)
+			if (Render *rit = dynamic_cast<Render *>(*it))
+				if (r->get_priority() <= (*rit).get_priority())
+					break;
+	} else it = &_map[x][y];
+
+	entity->next = *it;
+	*it = entity;
 }
 
 void Game::move(Entity *entity, int nx, int ny)
@@ -130,9 +153,12 @@ void Game::move(Entity *entity, int nx, int ny)
 
 	/* validate user input */
 	if (nx >= GAME_W || ny >= GAME_H || nx < 0 || ny < 0)
-		return;
-	if (x >= GAME_W || y >= GAME_H || x < 0 || y < 0)
-		return;
+		return (entity->kill = true), (void)0;
+
+	assert(x < GAME_W && y < GAME_H && x >= 0 && y >= 0);
+
+	entity->x = nx;
+	entity->y = ny;
 
 	/* Delete from linked list (previous position) */
 	for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
@@ -142,10 +168,7 @@ void Game::move(Entity *entity, int nx, int ny)
 		}
 
 	/* Insert at new position and set set new position */
-	entity->next = _map[nx][ny];
-	_map[nx][ny] = entity;
-	entity->x = nx;
-	entity->y = ny;
+	push(entity);
 
 	if (Collide *cl = dynamic_cast<Collide *>(entity))
 		if (entity->type == GOOD && entity->next)
@@ -155,13 +178,13 @@ void Game::move(Entity *entity, int nx, int ny)
 void Game::pop(Entity *entity) {
 	int x = entity->x, y = entity->y;
 
-	/* Delete from linked list */
-	if (x < GAME_W && y < GAME_H && x >= 0 && y >= 0)
-		for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
-			if (*it == entity) {
-				*it = entity->next;
-				break;
-			}
+	assert(x < GAME_W && y < GAME_H && x >= 0 && y >= 0);
+
+	for (Entity **it = &_map[x][y]; *it; it = &(*it)->next)
+		if (*it == entity) {
+			*it = entity->next;
+			break;
+		}
 
 	delete entity;
 }
@@ -174,4 +197,8 @@ Game::Entity *Game::get(int x, int y) {
 
 uint64_t Game::get_frame() const {
 	return this->_frame;
+}
+
+WINDOW *Game::get_window() const {
+	return _window;
 }

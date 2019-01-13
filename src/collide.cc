@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <collide.h>
+#include <cassert>
 
 #include "collide.h"
 
@@ -43,20 +44,21 @@ Collide &	Collide::operator=(Collide const &rhs)
 	return *this;
 }
 
-Collide::Collide(size_t hp, uint8_t hitbox) : _hp(hp), _hitbox(hitbox) { }
+Collide::Collide(size_t hp) : _hp(hp) { }
 
 
-void Collide::collide(Game & game) {
+void Collide::collide(Game &game) {
+	Game::Entity *e = dynamic_cast<Game::Entity *>(this);
 
-	Entity **player = &game->_map[x][y];
-	for (Entity **it = &game->_map[x][y]->next; *it; it = &(*it)->next)
-		if (*it->_type == BAD)
-		{
-			*player->_hp -= 1;
-			if (*player->_hp == 0) //player
-				pop(*player);
-			it->hp -= 1;
-			if (it->_hp == 0)	//rest
-				pop(it);
-		}
+	assert(e);
+	for (Game::Entity *it = game.get(e->x, e->y); it; it = it->next)
+		if (it != e && it->type != e->type)
+			if (Collide *cl = dynamic_cast<Collide *>(e)) {
+				_hp -= 1;
+				if (_hp == 0)
+					e->kill = true;
+				cl->_hp -= 1;
+				if (cl->_hp == 0)
+					dynamic_cast<Game::Entity *>(cl)->kill = true;
+			}
 }

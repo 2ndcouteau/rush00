@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Environnement.h"
+#include "environnement.h"
 
 Environnement::Environnement(void)
 {
@@ -41,5 +41,5 @@ Environnement &	Environnement::operator=(Environnement const &rhs)
 	return *this;
 }
 
-Environnement::Environnement(int x, int y, size_t hp)
-	: Entity(x, y, Game::BAD), Collide(hp), Render(Render::ENV) { }
+//Environnement::Environnement(int x, int y, size_t hp)
+//	: Entity(x, y, Game::BAD), Collide(hp), Render(Render::ENV) { }

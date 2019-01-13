@@ -31,7 +31,9 @@ public:
 
 	Render &operator=(Render const &rhs);
 
-	void render(Game &);
+	virtual void render(Game &);
+
+	Priority get_priority() const;
 };
 
 #endif /* !__RENDER_H */

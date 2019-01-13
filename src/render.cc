@@ -48,3 +48,7 @@ void Render::render(Game &) {
 }
 
 Render::Render(Render::Priority _priority) : _priority(_priority) { }
+
+Render::Priority Render::get_priority() const {
+	return _priority;
+}

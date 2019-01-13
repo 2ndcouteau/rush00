@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ncurses.h>
+
 #include "laser.h"
 
 Laser::Laser()
@@ -41,4 +43,17 @@ Laser &	Laser::operator=(Laser const &rhs)
 	return *this;
 }
 
-void Laser::Laser(Game &) { }
+Laser::Laser(int x, int y, Game::Type type, char visual, int color)
+	: Entity(x, y, type), Collide(1), Move(20, Move::Up),
+	  Render(type == Game::GOOD ? PLAYER : ENEMY),
+	_visual(visual), _color(color) {
+
+	if (type == Game::BAD)
+		Move::_direction = Down;
+}
+
+void Laser::render(Game &game) {
+	wattron(game.get_window(), COLOR_PAIR(_color));
+	mvwprintw(game.get_window(), y, x, (char[]){ _visual, '\0' });
+	wattroff(game.get_window(), COLOR_PAIR(_color));
+}

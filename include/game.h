@@ -21,8 +21,8 @@
 #include <thread>
 #include <iostream>
 
-#define GAME_H (25)
-#define GAME_W (25)
+#define GAME_H (50)
+#define GAME_W (80)
 
 class Game {
 public:
@@ -39,6 +39,7 @@ public:
 		Type type;
 		Entity *next;
 		uint64_t frame;
+		bool kill;
 
 	public:
 		Entity(int x, int y, Type type);
@@ -51,7 +52,7 @@ public:
 	};
 
 private:
-	Entity *_map[GAME_H][GAME_W];
+	Entity *_map[GAME_W][GAME_H];
 	uint64_t _frame;
 	WINDOW *_window;
 
@@ -67,6 +68,7 @@ public:
 	Entity *get(int x, int y);
 
 	uint64_t get_frame() const;
+	WINDOW *get_window() const;
 };
 
 #endif /* !__GAME_H */

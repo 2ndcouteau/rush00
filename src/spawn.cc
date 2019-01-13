@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <spawn.h>
-
 #include "spawn.h"
+#include "enemy.h"
+#include "laser.h"
+#include "environnement.h"
 
 Spawn::Spawn()
 {
@@ -44,29 +45,16 @@ Spawn &	Spawn::operator=(Spawn const &rhs)
 }
 
 void Spawn::spawn(Game & game) {
-	if ((game->_frame % (rand() % 12)) < 4)			// 1 chance sur 4 // 4:12
+	if ((game.get_frame() % _frequency) == 0)	// 1 chance sur 4 // 4:12
 	{
-		switch (rand() % 2) {
-			case 0:
-				push(new Enemy((rand() % GAME_W), 1, 1));
-			case 1:
-				push(new Environnement((rand() % GAME_W), 1, 1));
-		}
+		game.push(new Enemy((rand() % GAME_W), 1, 1));
+		//		switch (rand() % 1) {
+//			case 0:
+//				game.push(new Enemy((rand() % GAME_W), 1, 1));
+//			case 1:
+//				game.push(new Environnement((rand() % GAME_W), 1, 1));
+//		}
 	}
 }
-
-void Spawn::spawn(Laser & laser) {
-	if ((Enemy->_frame % (rand() % 40)) < 4)			// 1 chance sur 10 // 4:40
-	{
-
-		// switch (rand() % 2) {
-		// 	case 0:
-		// 		push(new Enemy((rand() % GAME_W), 1, 1));
-		// 	case 1:
-		// 		push(new Environnement((rand() % GAME_W), 1, 1));
-		}
-	}
-}
-
 
 Spawn::Spawn(uint64_t _frequency) : _frequency(_frequency) { }

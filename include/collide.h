@@ -24,7 +24,7 @@ public:
 
 	Collide();
 	Collide(Collide const &src);
-	~Collide();
+	virtual ~Collide();
 
 	Collide &operator=(Collide const &rhs);
 

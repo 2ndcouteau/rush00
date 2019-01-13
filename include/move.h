@@ -19,12 +19,12 @@ class Move {
 public:
 	enum Direction { Left, Right, Up, Down };
 
-private:
-	uint64_t _speed;
+protected:
+	uint64_t _frequency;
 	Direction _direction;
 
 public:
-	Move(uint64_t _speed, Direction _direction);
+	Move(uint64_t frequency, Direction direction);
 
 	Move();
 	Move(Move const &src);
@@ -32,7 +32,7 @@ public:
 
 	Move &operator=(Move const &rhs);
 
-	void move(Game &);
+	virtual void move(Game &);
 };
 
 #endif /* !__MOVE_H */

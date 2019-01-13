@@ -21,11 +21,16 @@
 class Enemy : public Game::Entity,
 	public Collide, public Move, public Spawn, public Render {
 public:
+	Enemy(int x, int y, size_t hp);
+
 	Enemy();
 	Enemy(Enemy const &src);
 	~Enemy();
 
 	Enemy &operator=(Enemy const &rhs);
+
+	void spawn(Game &game);
+	void render(Game &game);
 };
 
 #endif
