@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 1970/01/01 00:00:42 by alucas-           #+#    #+#              #
-#    Updated: 1970/01/01 00:00:42 by alucas-          ###   ########.fr        #
+#    Updated: 2019/01/13 09:18:14 by qrosa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,11 @@
 # ------------------------------------------------------------------------------
 
 CC     := gcc
-CXX    := g++
+CXX    := clang++
 AS     := gcc
-LD     := g++
+LD     := clang++
 AR     := ar
-CFLAGS += -Wall -Wextra -Werror
+CFLAGS += -Wall -Wextra -Werror -std=c++98
 
 ifeq ($(DEBUG),)
   CONFIG   = release
