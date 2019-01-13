@@ -20,11 +20,11 @@
 class Laser : public Game::Entity,
 	public Collide, public Move, public Render {
 private:
-	char _visual;
+	char const *_visual;
 	int _color;
 
 public:
-	Laser(int x, int y, Game::Type type, char visual, int color);
+	Laser(int x, int y, Game::Type type, char const *visual, int color, uint64_t speed);
 
 	Laser();
 	Laser(Laser const &src);
@@ -35,7 +35,7 @@ public:
 	void render(Game &game);
 
 	int	getColor() const;
-	char getVisual() const;
+	char const *getVisual() const;
 };
 
 #endif /* !__LASER_H */

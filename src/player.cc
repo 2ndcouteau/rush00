@@ -56,7 +56,7 @@ void Player::control(Game &game, int input) {
 		if (y < GAME_H - 2) game.move(this, x, y + 1);
 		break;
 	case ' ':
-		game.push(new Laser(x, y - 1, Game::GOOD, '\'', 3));
+		game.push(new Laser(x, y - 1, Game::GOOD, "\'", 3, 5));
 		break;
 	default:
 		break;

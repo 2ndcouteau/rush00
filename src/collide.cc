@@ -53,9 +53,8 @@ Collide::Collide(size_t hp) : _hp(hp) { }
 void Collide::collide(Game &game) {
 	Game::Entity *a = dynamic_cast<Game::Entity *>(this);
 
-	assert(a);
 	for (Game::Entity *b = game.get(a->x, a->y); b; b = b->next)
-		if (b != a && b->type != a->type)
+		if (!a->kill && !b->kill && b != a && b->type != a->type)
 			if (Collide *cl = dynamic_cast<Collide *>(b)) {
 				_hp -= 1;
 				if (_hp == 0) {

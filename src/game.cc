@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <game.h>
 #include <cassert>
-#include <zconf.h>
+#include <laser.h>
 
 #include "game.h"
 #include "player.h"
@@ -70,10 +69,22 @@ Game::Game() :  count(0), _map(), _frame(0) {
 
 Game::~Game() {
 
+	for (int y = 1; y < GAME_H - 1; ++y) {
+		for (int x = 1; x < GAME_W - 1; ++x) {
+			for (Entity *e = _map[x][y], *next; e; e = next) {
+				next = e->next;
+				delete e;
+			}
+		}
+	}
+
 	/* Delete game window then tell ncurses to reset term */
 	delwin(_window);
 	endwin();
 }
+
+static uint64_t bad_amount = 0;
+static uint64_t bad_limit = 10;
 
 int Game::run() {
 	Player *player = new Player(GAME_W / 2, GAME_H - 5, 10);
@@ -91,15 +102,25 @@ int Game::run() {
 		++this->_frame;
 		std::chrono::steady_clock::time_point end =
 			std::chrono::steady_clock::now() +
-			std::chrono::milliseconds(10);
+			std::chrono::milliseconds(8);
 
 		werase(_window);
-		mvwprintw(_info, 1, 1, "HP: %2llu | ", player->get_hp());
+		mvwprintw(_info, 1, 1, "HP: %llu | ", player->get_hp());
 
-		if ((_frame % 60) == 0)
+		if ((_frame % 55) == 0)
 			push(new Enemy((rand() % GAME_W), 1, 1));
 		else if ((_frame % 80) == 0)
 			push(new Environnement((rand() % GAME_W), 1));
+		else if ((_frame % 1201) == 0) {
+			push(new Laser((GAME_W / 2) - 3, 3, BAD, "(", 6, 40));
+			push(new Laser((GAME_W / 2) - 2, 3, BAD, "/", 6, 40));
+			push(new Laser((GAME_W / 2) - 1, 3, BAD, "'", 6, 40));
+			push(new Laser((GAME_W / 2)    , 3, BAD, "o", 6, 40));
+			push(new Laser((GAME_W / 2) + 1, 3, BAD, "'", 6, 40));
+			push(new Laser((GAME_W / 2) + 2, 3, BAD, ")", 6, 40));
+			push(new Laser((GAME_W / 2) + 3, 3, BAD, "/", 6, 40));
+			push(new Laser((GAME_W / 2) + 3, 3, BAD, "/", 6, 40));
+		}
 
 		for (int y = 1; y < GAME_H - 1; ++y) {
 			for (int x = 1; x < GAME_W - 1; ++x) {
@@ -120,7 +141,9 @@ int Game::run() {
 					if (e->kill) {
 						if (e == player) {
 							mvwprintw(_info, 1, 1,
-								":( YOU DIED ! (Press any key to quit)");
+									  "YOU DIED ! SCORE: %llu "
+									  "(Press any key to quit)",
+									  score);
 							box(_info, ACS_VLINE, ACS_HLINE);
 							wrefresh(_info);
 
@@ -144,7 +167,7 @@ int Game::run() {
 			}
 		}
 
-		wprintw(_info, "SCORE: %2llu", score);
+		wprintw(_info, "SCORE: %llu", score);
 
 		box(_info, ACS_VLINE, ACS_HLINE);
 		wrefresh(_info);
@@ -158,18 +181,17 @@ int Game::run() {
 	return 0;
 }
 
-static uint64_t bad_amount = 0;
-
 void Game::push(Entity *entity) {
 	int x = entity->x, y = entity->y;
 
 	if (!(x < GAME_W && y < GAME_H && x >= 0 && y >= 0) ||
-		(entity->type == BAD && bad_amount >= 15)) {
+		(dynamic_cast<Enemy *>(entity) &&
+		bad_amount >= bad_limit)) {
 		delete entity;
 		return;
 	}
 
-	if (entity->type == BAD)
+	if (dynamic_cast<Enemy *>(entity))
 		++bad_amount;
 
 	Entity **it;
@@ -202,7 +224,7 @@ void Game::move(Entity *entity, int nx, int ny)
 		if (*it == entity) {
 			*it = entity->next;
 			--count;
-			if (entity->type == BAD)
+			if (dynamic_cast<Enemy *>(entity))
 				--bad_amount;
 			break;
 		}
@@ -225,7 +247,7 @@ void Game::pop(Entity *entity) {
 		if (*it == entity) {
 			*it = entity->next;
 			--count;
-			if (entity->type == BAD)
+			if (dynamic_cast<Enemy *>(entity))
 				--bad_amount;
 			delete entity;
 			return;

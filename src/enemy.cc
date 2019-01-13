@@ -45,7 +45,7 @@ Enemy::Enemy(int x, int y, size_t hp)
 void Enemy::spawn(Game &game) {
 	if ((rand() % 4) == 0 &&
 		(game.get_frame() % Spawn::_frequency) == 0)
-		game.push(new Laser(x, y + 1, Game::BAD, 'T', 4));
+		game.push(new Laser(x, y + 1, Game::BAD, "T", 4, 5));
 }
 
 void Enemy::render(Game &game) {

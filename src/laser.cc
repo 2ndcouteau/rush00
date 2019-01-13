@@ -16,41 +16,35 @@
 
 Laser::Laser()
 {
-//	std::cout << " Laser Default Constructor " << std::endl;
 	return;
 }
 
 Laser::Laser(Laser const &src)
 {
-//	std::cout << " Laser Copy Constructor " << std::endl;
 	*this = src;
 	return;
 }
 
 Laser::~Laser()
 {
-//	std::cout << " Laser Destructor " << std::endl;
-	return;
 }
 
 Laser &	Laser::operator=(Laser const &rhs)
 {
-//	std::cout << " Laser Assignement Operator " << std::endl;
-
-	if (this != &rhs)
-
+	if (this != &rhs) {
 		this->_color = rhs.getColor();
 		this->_visual = rhs.getVisual();
 
+	}
 	return *this;
 }
 
-Laser::Laser(int x, int y, Game::Type type, char visual, int color)
-	: Entity(x, y, type),
-	  Collide(1),
-	  Move(5, Move::Up),
-	  Render(type == Game::GOOD ? PLAYER : ENEMY),
-	  _visual(visual), _color(color) {
+Laser::Laser(int x, int y, Game::Type type, char const *visual, int color,
+			 uint64_t speed) : Entity(x, y, type),
+							   Collide(1),
+							   Move(speed, Move::Up),
+							   Render(type == Game::GOOD ? PLAYER : ENEMY),
+							   _visual(visual), _color(color) {
 
 	if (type == Game::BAD)
 		Move::_direction = Down;
@@ -58,12 +52,11 @@ Laser::Laser(int x, int y, Game::Type type, char visual, int color)
 
 void Laser::render(Game &game) {
 	wattron(game.get_window(), COLOR_PAIR(_color));
-	mvwprintw(game.get_window(), y, x, (char[]){ _visual, '\0' });
+	mvwprintw(game.get_window(), y, x, _visual);
 	wattroff(game.get_window(), COLOR_PAIR(_color));
 }
 
-
-char Laser::getVisual() const
+char const *Laser::getVisual() const
 {
 	return (this->_visual);
 }
