@@ -171,8 +171,7 @@ void Game::move(Entity *entity, int nx, int ny)
 	push(entity);
 
 	if (Collide *cl = dynamic_cast<Collide *>(entity))
-		if (entity->type == GOOD && entity->next)
-			cl->collide(*this);
+		cl->collide(*this);
 }
 
 void Game::pop(Entity *entity) {

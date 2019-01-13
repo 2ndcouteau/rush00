@@ -53,7 +53,7 @@ void Collide::collide(Game &game) {
 	assert(e);
 	for (Game::Entity *it = game.get(e->x, e->y); it; it = it->next)
 		if (it != e && it->type != e->type)
-			if (Collide *cl = dynamic_cast<Collide *>(e)) {
+			if (Collide *cl = dynamic_cast<Collide *>(it)) {
 				_hp -= 1;
 				if (_hp == 0)
 					e->kill = true;
