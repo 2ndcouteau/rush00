@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   control.c                                          :+:      :+:    :+:   */
+/*   laser.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qrosa <qrosa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/13 09:36:33 by qrosa             #+#    #+#             */
-/*   Updated: 2019/01/13 09:36:41 by qrosa            ###   ########.fr       */
+/*   Created: 2019/01/13 09:34:36 by qrosa             #+#    #+#             */
+/*   Updated: 2019/01/13 09:35:28 by qrosa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <control.h>
+#include "laser.h"
 
-#include "control.h"
-
-Control::Control()
+Laser::Laser()
 {
-//	std::cout << " Control Default Constructor " << std::endl;
+//	std::cout << " Laser Default Constructor " << std::endl;
 	return;
 }
 
-Control::Control(Control const &src)
+Laser::Laser(Laser const &src)
 {
-//	std::cout << " Control Copy Constructor " << std::endl;
+//	std::cout << " Laser Copy Constructor " << std::endl;
 	*this = src;
 	return;
 }
 
-Control::~Control()
+Laser::~Laser()
 {
-//	std::cout << " Control Destructor " << std::endl;
+//	std::cout << " Laser Destructor " << std::endl;
 	return;
 }
 
-Control &	Control::operator=(Control const &rhs)
+Laser &	Laser::operator=(Laser const &rhs)
 {
-//	std::cout << " Control Assignement Operator " << std::endl;
+//	std::cout << " Laser Assignement Operator " << std::endl;
 
 //	if (this != &rhs)
 //		this->_foo = rhs.getFoo();
@@ -43,4 +41,4 @@ Control &	Control::operator=(Control const &rhs)
 	return *this;
 }
 
-void Control::control(Game &, int input) { }
+void Laser::Laser(Game &) { }

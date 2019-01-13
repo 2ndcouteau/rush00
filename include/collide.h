@@ -18,10 +18,9 @@
 class Collide {
 private:
 	std::size_t _hp;
-	std::uint8_t _hitbox;
 
 public:
-	Collide(size_t hp, uint8_t hitbox);
+	Collide(size_t hp);
 
 	Collide();
 	Collide(Collide const &src);

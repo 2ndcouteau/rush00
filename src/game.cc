@@ -82,7 +82,7 @@ int Game::run() {
 		++this->_frame;
 		std::chrono::steady_clock::time_point end =
 			std::chrono::steady_clock::now() +
-			std::chrono::milliseconds(16);
+			std::chrono::milliseconds(8);
 
 		for (int x = 0; x < GAME_W; ++x) {
 			for (int y = 0; y < GAME_H; ++y) {
@@ -100,9 +100,6 @@ int Game::run() {
 
 					if (Spawn *s = dynamic_cast<Spawn *>(e))
 						s->spawn(*this);
-
-					if (Collide *cl = dynamic_cast<Collide *>(e))
-						cl->collide(*this);
 
 					if (Render *c = dynamic_cast<Render *>(e))
 						c->render(*this);
@@ -149,6 +146,10 @@ void Game::move(Entity *entity, int nx, int ny)
 	_map[nx][ny] = entity;
 	entity->x = nx;
 	entity->y = ny;
+
+	if (Collide *cl = dynamic_cast<Collide *>(entity))
+		if (entity->type == GOOD && entity->next)
+			cl->collide(*this);
 }
 
 void Game::pop(Entity *entity) {

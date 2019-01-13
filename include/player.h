@@ -27,6 +27,8 @@ public:
 	~Player();
 
 	Player &operator=(Player const &rhs);
+
+	void control(Game &game, int input) override;
 };
 
 #endif
